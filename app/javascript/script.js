@@ -13,9 +13,34 @@ canvas.addEventListener('mousedown', function(e) {
 
 canvas.addEventListener('mousemove', function(e) {
     if (drawing){
-        cxt.lineTo(e.offsetX, e.offsetY);cxt.stroke();
+        ctx.lineTo(e.offsetX, e.offsetY);  ctx.strokeStyle = "black";
+        ctx.lineWidth = 10;ctx.lineCap = 'round';ctx.stroke();
     }
 });
 canvas.addEventListener('mouseup', function(e) {
             drawing = false;
 });
+canvas.addEventListener('mouseleave', function() {
+    drawing = false;
+}); // falls man aus den canvas raus geht ist gelcihgultig wie aufhören zu clicken
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+
+function submitCanvas() {
+
+    let dataURL = canvas.toDataURL('image/png');
+
+    fetch('/submit_canvas', {
+        method: 'POST',
+        body: JSON.stringify({ image: dataURL }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Predicted digit: ' + data.prediction);
+    });
+}

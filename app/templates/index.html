@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digit Recognition</title>
-    <link rel="stylesheet" href="../static/style.css">
 
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
     <h1>Upload a Digit Image</h1>
+
 
     <form action="/" method="POST" enctype="multipart/form-data">
         <input type="file" name="file" accept="image/*">
@@ -18,18 +19,14 @@
 
     {% if img_path %}
         <h2>Uploaded Image:</h2>
-        <img hidden src="{{ url_for('static', filename='uploads/' ~ img_path) }}" alt="Uploaded Image" style="max-width: 200px;">
-
-        <h2>Prediction: {{ prediction }}</h2>
+        <img src="{{ url_for('static', filename='uploads/' + img_path) }}" alt="Uploaded Image" style="max-width: 200px;">
     {% endif %}
 
-
-
-
-<canvas id="canvas" width="280" height="280"></canvas>
-
-</body>
+    <h2>Draw on Canvas:</h2>
+    <canvas id="canvas" width="280" height="280"></canvas>
+<h2>Predicted Digit:</h2>
+<p id="predictedDigit">None</p>
 
     <script src="../javascript/script.js"></script>
-
+</body>
 </html>

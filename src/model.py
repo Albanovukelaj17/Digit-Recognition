@@ -1,25 +1,28 @@
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Input
+import tensorflow as tf
+from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Flatten, Dense
 
-model = Sequential()
-print("Sequential model imported successfully")
+inputs = Input(shape=(28, 28, 1))
+#28 x28 greyscale image , written number input
 
-#geht nicht
-def create_model():
+x = Conv2D(32, (3, 3), activation='relu')(inputs)
+x = MaxPooling2D((2, 2))(x)
+x = Conv2D(64, (3, 3), activation='relu')(x)
+x = MaxPooling2D((2, 2))(x)
+x = Flatten()(x) #1600 neurons
+x = Dense(128, activation='relu')(x)#128 neurons
 
-    model = Sequential([
-        Input(shape=(28, 28, 1)),
-        Conv2D(32, (3, 3), activation='relu'),
-        MaxPooling2D((2, 2)),
-        Conv2D(64, (3, 3), activation='relu'),
-        MaxPooling2D((2, 2)),
-        Flatten(),
-        Dense(128, activation='relu'),
-        Dense(10, activation='softmax')
-    ])
 
-    model.compile(optimizer='adam',
-                  loss='sparse_categorical_crossentropy',
-                  metrics=['accuracy'])
+outputs = Dense(10, activation='softmax')(x) #solution 10 neurons
 
-    return model
+
+model = tf.keras.Model(inputs=inputs, outputs=outputs)
+
+
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+
+model.summary()
+#sequential not working
+#multilayer framework from tensorflow

@@ -1,0 +1,22 @@
+canvas {
+    border: 2px solid black;
+    background-color: white;
+    cursor: crosshair;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+button {
+    margin: 10px;
+}

@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digit Recognition</title>
+    <link rel="stylesheet" href="../static/style.css">
+
 </head>
 <body>
-$END$
+    <h1>Upload a Digit Image</h1>
+
+    <form action="/" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*">
+        <input type="submit" value="Upload">
+    </form>
+
+
+    {% if img_path %}
+        <h2>Uploaded Image:</h2>
+        <img hidden src="{{ url_for('static', filename='uploads/' ~ img_path) }}" alt="Uploaded Image" style="max-width: 200px;">
+
+        <h2>Prediction: {{ prediction }}</h2>
+    {% endif %}
+
+
+
+
+<canvas id="canvas" width="280" height="280"></canvas>
+
 </body>
+
+    <script src="../javascript/script.js"></script>
+
 </html>

@@ -19,7 +19,7 @@ test_loss, test_acc = model.evaluate(x_test, y_test)
 print(f"Accuracy: {test_acc}")
 
 #save model
-model.save('models/cnn_digit_model.h5')
+model.save('models/cnn_digit_model.keras')
 
 #like wandbai history
 import matplotlib.pyplot as plt

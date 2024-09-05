@@ -6,6 +6,8 @@ let drawing = false;
 //ctx.lineTo(200, 200);
 //ctx.stroke();
 //test draw
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 canvas.addEventListener('mousedown', function(e) {
             drawing = true;ctx.beginPath();ctx.moveTo(e.offsetX, e.offsetY);
@@ -23,15 +25,16 @@ canvas.addEventListener('mouseup', function(e) {
 canvas.addEventListener('mouseleave', function() {
     drawing = false;
 }); // falls man aus den canvas raus geht ist gelcihgultig wie aufhören zu clicken
+
 function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 
 function submitCanvas() {
     let dataURL = canvas.toDataURL('image/png');
-
-    // Sending the image to the server
     fetch('/submit_canvas', {
         method: 'POST',
         body: JSON.stringify({ image: dataURL }),
@@ -41,12 +44,9 @@ function submitCanvas() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Prediction:', data.prediction);
         document.getElementById('predictedDigit').textContent = data.prediction;
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
-
-

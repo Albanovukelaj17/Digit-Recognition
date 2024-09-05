@@ -7,6 +7,8 @@ import re
 import base64
 from io import BytesIO
 
+import matplotlib.pyplot as plt
+
 app = Flask(__name__, template_folder="app/templates", static_folder="app/static")
 
 
@@ -17,9 +19,12 @@ def prepare_image(data_image):
     data_image = data_image.convert('L')
     data_image = data_image.resize((28, 28))
     data_image = np.array(data_image) / 255.0
+
+    # Save the image to a file (optional for debugging)
+    plt.imsave('processed_image_debug.png', data_image, cmap='gray')
+
     data_image = data_image.reshape(1, 28, 28, 1)
     return data_image
-
 
 
 @app.route('/', methods=['GET'])
@@ -41,18 +46,25 @@ def submit_canvas():
     image = Image.open(BytesIO(base64.b64decode(image_data)))
 
 
-    print(f"Image size: {image.size}, Mode: {image.mode}")
+    print(f"Original Image size: {image.size}, Mode: {image.mode}")
 
 
     processed_image = prepare_image(image)
-    prediction = model.predict(processed_image)
-    predicted_class = np.argmax(prediction)
 
-    print(f"Predicted class: {predicted_class}")  # Debug-Ausgabe der Vorhersage
+
+    print(f"Processed Image shape: {processed_image.shape}")
+
+    prediction = model.predict(processed_image)
+    print(f"Prediction probabilities: {prediction}")
+    predicted_class = np.argmax(prediction)
+    print(f"Predicted class: {predicted_class}")
+
+
+    print("Original Image size:", image.size)
+    print("Processed Image shape:", processed_image.shape)
 
 
     return jsonify({'prediction': int(predicted_class)})
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=5008)

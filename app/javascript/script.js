@@ -31,6 +31,7 @@ function clearCanvas() {
 function submitCanvas() {
     let dataURL = canvas.toDataURL('image/png');
 
+    // Sending the image to the server
     fetch('/submit_canvas', {
         method: 'POST',
         body: JSON.stringify({ image: dataURL }),
@@ -40,10 +41,12 @@ function submitCanvas() {
     })
     .then(response => response.json())
     .then(data => {
-
+        console.log('Prediction:', data.prediction);
         document.getElementById('predictedDigit').textContent = data.prediction;
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
+
+
